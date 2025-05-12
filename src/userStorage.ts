@@ -1,6 +1,7 @@
-import { User } from './model';
+import { User, UserNotFoundError } from './model';
+import { v4 } from 'uuid';
 
-class UserStorage {
+export class UserStorage {
   private users: Map<string, User>;
 
   constructor() {
@@ -11,12 +12,16 @@ class UserStorage {
     return [...this.users.values()];
   }
 
-  getById(id: string): User | null {
-    return this.users.get(id) ?? null;
+  getById(id: string): User {
+    const user = this.users.get(id);
+    if (!user) {
+      throw new UserNotFoundError();
+    }
+    return user;
   }
 
   create(user: User): User {
-    const id = crypto.randomUUID();
+    const id: string = v4();
     user.id = id;
 
     if (user.id) this.users.set(user.id, user);
@@ -24,13 +29,15 @@ class UserStorage {
   }
 
   update(id: string, user: User): User {
+    this.getById(id);
     this.users.set(id, user);
     return user;
   }
 
   delete(id: string) {
+    this.getById(id);
     this.users.delete(id);
   }
 }
 
-export default UserStorage;
+export const userStorage = new UserStorage();
