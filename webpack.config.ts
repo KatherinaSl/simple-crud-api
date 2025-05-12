@@ -1,35 +1,39 @@
-import path from "path";
-import { Configuration } from "webpack";
+import path from 'path';
+import { Configuration } from 'webpack';
 import 'webpack-dev-server';
+import nodeExternals from 'webpack-node-externals';
 
 const config: Configuration = {
-  entry: "./src/index.ts",
+  target: 'node',
+  entry: './src/index.ts',
   module: {
     rules: [
       {
         test: /\.(ts|js)?$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-typescript"],
+            presets: ['@babel/preset-env', '@babel/preset-typescript'],
           },
         },
       },
     ],
   },
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: ['.ts', '.js'],
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
   },
   devServer: {
-    static: path.join(__dirname, "dist"),
+    static: path.join(__dirname, 'dist'),
     compress: true,
     port: 4000,
   },
+  externals: [nodeExternals()],
+  mode: 'production',
 };
 
 export default config;
