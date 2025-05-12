@@ -33,3 +33,15 @@ export class UserNotFoundError extends UserError {
     super(STATUS_CODES.NOT_FOUND, ERROR_MSG.USER_NOT_FOUND);
   }
 }
+
+export class InvalidUserError extends UserError {
+  constructor() {
+    super(STATUS_CODES.BAD_REQUEST, ERROR_MSG.INVALID_BODY);
+  }
+}
+
+export class InvalidUserIdError extends UserError {
+  constructor() {
+    super(STATUS_CODES.BAD_REQUEST, ERROR_MSG.INVALID_UUID);
+  }
+}

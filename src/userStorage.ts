@@ -21,15 +21,14 @@ export class UserStorage {
   }
 
   create(user: User): User {
-    const id: string = v4();
-    user.id = id;
-
-    if (user.id) this.users.set(user.id, user);
+    user.id = v4();
+    this.users.set(user.id, user);
     return user;
   }
 
   update(id: string, user: User): User {
     this.getById(id);
+    user.id = id;
     this.users.set(id, user);
     return user;
   }
