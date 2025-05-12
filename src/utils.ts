@@ -18,7 +18,7 @@ export function getBody(request: http.IncomingMessage): Promise<string> {
   });
 }
 
-export function validateCreateUser(user: string) {
+export function validateUser(user: string) {
   const obj = JSON.parse(user);
   const areTypesIncorrect =
     typeof obj.username !== 'string' || typeof obj.age !== 'number';
@@ -26,22 +26,6 @@ export function validateCreateUser(user: string) {
     !Array.isArray(obj.hobbies) || !isArrayOfStrings(obj.hobbies);
 
   if (areTypesIncorrect || areHobbiesInvalid) {
-    throw new InvalidUserError();
-  }
-}
-
-export function validateUpdateUser(user: string) {
-  const obj = JSON.parse(user);
-  if (
-    (obj.username !== undefined && typeof obj.username !== 'string') ||
-    (obj.age !== undefined && typeof obj.age !== 'number')
-  ) {
-    throw new InvalidUserError();
-  }
-  if (
-    obj.hobbies !== undefined &&
-    (!Array.isArray(obj.hobbies) || !isArrayOfStrings(obj.hobbies))
-  ) {
     throw new InvalidUserError();
   }
 }

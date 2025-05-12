@@ -5,11 +5,10 @@ import { HandlerResponse, User } from './model';
 import {
   getBody,
   getUserId,
-  validateCreateUser,
+  validateUser,
   parseUrl,
   isBasePath,
   isPathWithId,
-  validateUpdateUser,
 } from './utils';
 
 const handleRequest = async (
@@ -55,7 +54,7 @@ async function updateUser(
   req: http.IncomingMessage
 ) {
   const body = await getBody(req);
-  validateUpdateUser(body);
+  validateUser(body);
   const updatedUser = JSON.parse(body) as User;
   return {
     statusCode: STATUS_CODES.SUCCESS,
@@ -68,7 +67,7 @@ async function createUser(
   userStorage: UserStorage
 ): Promise<HandlerResponse> {
   const body = await getBody(req);
-  validateCreateUser(body);
+  validateUser(body);
   const user = JSON.parse(body) as User;
   return { statusCode: STATUS_CODES.CREATED, body: userStorage.create(user) };
 }
